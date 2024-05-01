@@ -1,75 +1,3 @@
-// import React, { useState } from 'react';
-// import Web3 from 'web3';
-// import './index.css'
-
-// // Assuming you have your contract ABI and contract address
-// const contractABI = [
-//   // your contract ABI here
-// ];
-// const contractAddress = '0xYourContractAddress';
-
-// const Upload=()=> {
-//   const [whitelistAddress, setWhitelistAddress] = useState('');
-//   const [status, setStatus] = useState('');
-//   const [web3, setWeb3] = useState(null);
-//   const [connectedAddress, setConnectedAddress] = useState('');
-
-//   const handleInputChange = (e) => {
-//     setWhitelistAddress(e.target.value);
-//   };
-
-//   const handleUpload = async () => {
-//     try {
-//       const contract = new web3.eth.Contract(contractABI, contractAddress);
-
-//       // Upload whitelist address
-//       await contract.methods.uploadWhitelistAddress(whitelistAddress).send({ from: connectedAddress });
-
-//       setStatus('Address uploaded successfully!');
-//     } catch (error) {
-//       console.error('Error uploading address:', error);
-//       setStatus('Error uploading address. See console for details.');
-//     }
-//   };
-
-//   const connectMetaMask = async () => {
-//     try {
-//       if (window.ethereum) {
-//         await window.ethereum.request({ method: 'eth_requestAccounts' });
-//         const web3Instance = new Web3(window.ethereum);
-//         setWeb3(web3Instance);
-//         const accounts = await web3Instance.eth.getAccounts();
-//         setConnectedAddress(accounts[0]);
-//       } else {
-//         setStatus('MetaMask not found. Please install MetaMask to connect.');
-//       }
-//     } catch (error) {
-//       console.error('Error connecting MetaMask:', error);
-//       setStatus('Error connecting MetaMask. See console for details.');
-//     }
-//   };
-
-//   return (
-//     <div>
-//         <h1>Upload Whitelist Address</h1>
-//       <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px' }}>
-        
-//         {connectedAddress ? (
-//           <p>Connected Address: {connectedAddress}</p>
-//         ) : (
-//           <button onClick={connectMetaMask}>Connect MetaMask</button>
-//         )}
-//       </header>
-//       <div style={{ padding: '20px' }}>
-//         <input type="text" placeholder="Enter Whitelist Address" value={whitelistAddress} onChange={handleInputChange} />
-//         <button onClick={handleUpload}>Upload</button>
-//         {status && <p>{status}</p>}
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Upload;
 
 import React, { useState } from 'react';
 import Web3 from 'web3';
@@ -822,29 +750,26 @@ const contractABI = [
 ];
 const contractAddress = '0x85b74f31695cA4E05D7638b51144dAa40629BBF8';
 
+
+
 const Upload = () => {
   const [whitelistAddresses, setWhitelistAddresses] = useState([]);
   const [contributions, setContributions] = useState([]);
   const [status, setStatus] = useState('');
   const [web3, setWeb3] = useState(null);
   const [connectedAddress, setConnectedAddress] = useState('');
+  const [whitelistAddress, setWhitelistAddress] = useState([]);
+  const [contribution, setContribution] = useState([]);
 
-  const handleInputChange = (e, index) => {
+  const handleInputChange = (e ) => {
     const { name, value } = e.target;
     if (name === 'address') {
-      const updatedAddresses = [...whitelistAddresses];
-      updatedAddresses[index] = value;
-      setWhitelistAddresses(updatedAddresses);
+     
+      setWhitelistAddress(value);
     } else if (name === 'contribution') {
-      const updatedContributions = [...contributions];
-      updatedContributions[index] = value;
-      setContributions(updatedContributions);
+      
+      setContribution(value);
     }
-  };
-
-  const handleAddAddress = () => {
-    setWhitelistAddresses([...whitelistAddresses, '']);
-    setContributions([...contributions, '']);
   };
 
   const handleUpload = async () => {
@@ -852,19 +777,21 @@ const Upload = () => {
       const contract = new web3.eth.Contract(contractABI, contractAddress);
 
       // Convert contribution amounts to wei format
-      const contributionsWei = contributions.map(amount => web3.utils.toWei(amount, 'ether'));
-
+      const contributionsWei = contribution.split(",").map(amount => web3.utils.toWei(amount, 'ether'));
+	  const whitelistAdd=whitelistAddress.split(",");
       // Upload whitelist addresses and contributions
-      console.log('Uploading addresses:', whitelistAddresses);
+      console.log('Uploading addresses:', whitelistAdd);
       console.log('Contributions (in wei):', contributionsWei);
-      await contract.methods.addMultipleToWhitelist(whitelistAddresses, contributionsWei).send({ from: connectedAddress });
+      const transaction = await contract.methods.addMultipleToWhitelist(whitelistAdd, contributionsWei).send({ from: connectedAddress });
 
-      setStatus('Addresses uploaded successfully!');
+      setStatus(`Transaction successful! Transaction hash: ${transaction.transactionHash}`);
     } catch (error) {
       console.error('Error uploading addresses:', error);
       setStatus('Error uploading addresses. See console for details.');
     }
   };
+  console.log('Uploading addresses:', whitelistAddresses);
+ console.log('Contributions (in wei):', contributions);
 
   const connectMetaMask = async () => {
     try {
@@ -894,25 +821,24 @@ const Upload = () => {
         )}
       </header>
       <div style={{ padding: '20px' }}>
-        {whitelistAddresses.map((address, index) => (
-          <div key={index} style={{ marginBottom: '10px' }}>
+        
+          <div style={{ marginBottom: '10px' }}>
             <input
               type="text"
               name="address"
               placeholder="Enter Address"
-              value={address}
-              onChange={(e) => handleInputChange(e, index)}
+              value={whitelistAddress}
+              onChange={(e) => handleInputChange(e)}
             />
             <input
-              type="number"
+              type="text"
               name="contribution"
               placeholder="Enter Contribution"
-              value={contributions[index]}
-              onChange={(e) => handleInputChange(e, index)}
+              value={contribution}
+              onChange={(e) => handleInputChange(e)}
             />
           </div>
-        ))}
-        <button onClick={handleAddAddress}>Add Address</button>
+        
         <button onClick={handleUpload}>Upload</button>
         {status && <p>{status}</p>}
       </div>
@@ -921,6 +847,3 @@ const Upload = () => {
 };
 
 export default Upload;
-
-
-
