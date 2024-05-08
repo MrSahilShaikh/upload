@@ -12,13 +12,13 @@ const contractABI = [
 				"type": "address"
 			},
 			{
-				"internalType": "uint256",
-				"name": "_hardcap",
-				"type": "uint256"
+				"internalType": "address",
+				"name": "_superAdmin",
+				"type": "address"
 			},
 			{
 				"internalType": "address",
-				"name": "_superAdmin",
+				"name": "stableCoin",
 				"type": "address"
 			},
 			{
@@ -57,93 +57,17 @@ const contractABI = [
 		"type": "error"
 	},
 	{
+		"anonymous": false,
 		"inputs": [
 			{
-				"internalType": "address[]",
-				"name": "_accounts",
-				"type": "address[]"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "_contributions",
-				"type": "uint256[]"
-			}
-		],
-		"name": "addMultipleToWhitelist",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_account",
-				"type": "address"
-			},
-			{
+				"indexed": false,
 				"internalType": "uint256",
-				"name": "_amount",
+				"name": "_endTime",
 				"type": "uint256"
 			}
 		],
-		"name": "addToWhitelist",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "contribute",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "disableWhitelist",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "enableWhitelist",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "endRaise",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "finaliseRaise",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bytes32",
-				"name": "role",
-				"type": "bytes32"
-			},
-			{
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
-			}
-		],
-		"name": "grantRole",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
+		"name": "EndTimeSet",
+		"type": "event"
 	},
 	{
 		"anonymous": false,
@@ -157,19 +81,6 @@ const contractABI = [
 		],
 		"name": "HardCapIncreased",
 		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_newHardCap",
-				"type": "uint256"
-			}
-		],
-		"name": "increaseHardCap",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -196,55 +107,6 @@ const contractABI = [
 		],
 		"name": "MinContributionSet",
 		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_account",
-				"type": "address"
-			}
-		],
-		"name": "removeFromWhitelist",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bytes32",
-				"name": "role",
-				"type": "bytes32"
-			},
-			{
-				"internalType": "address",
-				"name": "callerConfirmation",
-				"type": "address"
-			}
-		],
-		"name": "renounceRole",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bytes32",
-				"name": "role",
-				"type": "bytes32"
-			},
-			{
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
-			}
-		],
-		"name": "revokeRole",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -322,24 +184,17 @@ const contractABI = [
 		"type": "event"
 	},
 	{
+		"anonymous": false,
 		"inputs": [
 			{
+				"indexed": false,
 				"internalType": "uint256",
-				"name": "_max",
+				"name": "_startTime",
 				"type": "uint256"
 			}
 		],
-		"name": "setMaxContribution",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "startRaise",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
+		"name": "StartTimeSet",
+		"type": "event"
 	},
 	{
 		"anonymous": false,
@@ -373,45 +228,6 @@ const contractABI = [
 		"type": "event"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_feePercent",
-				"type": "uint256"
-			}
-		],
-		"name": "setFeePercent",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_hardCap",
-				"type": "uint256"
-			}
-		],
-		"name": "setHardCap",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_min",
-				"type": "uint256"
-			}
-		],
-		"name": "setMinContribution",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -437,10 +253,6 @@ const contractABI = [
 		"type": "event"
 	},
 	{
-		"stateMutability": "payable",
-		"type": "receive"
-	},
-	{
 		"inputs": [],
 		"name": "ADMIN_ROLE",
 		"outputs": [
@@ -455,6 +267,81 @@ const contractABI = [
 	},
 	{
 		"inputs": [],
+		"name": "DEFAULT_ADMIN_ROLE",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "WhitelistAmount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address[]",
+				"name": "_accounts",
+				"type": "address[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "_contributions",
+				"type": "uint256[]"
+			}
+		],
+		"name": "addMultipleToWhitelist",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_account",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "addToWhitelist",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "claim",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "contractCreator",
 		"outputs": [
 			{
@@ -464,6 +351,19 @@ const contractABI = [
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "contribute",
+		"outputs": [],
+		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
@@ -505,16 +405,23 @@ const contractABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "DEFAULT_ADMIN_ROLE",
-		"outputs": [
+		"inputs": [
 			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
+				"internalType": "uint256",
+				"name": "_setHardCap",
+				"type": "uint256"
 			}
 		],
-		"stateMutability": "view",
+		"name": "enableWhitelist",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "endRaise",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -550,6 +457,24 @@ const contractABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "grantRole",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "hardCap",
 		"outputs": [
@@ -576,6 +501,32 @@ const contractABI = [
 			}
 		],
 		"name": "hasRole",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_newHardCap",
+				"type": "uint256"
+			}
+		],
+		"name": "increaseHardCap",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "isHardCapSet",
 		"outputs": [
 			{
 				"internalType": "bool",
@@ -652,6 +603,101 @@ const contractABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_account",
+				"type": "address"
+			}
+		],
+		"name": "removeFromWhitelist",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "address",
+				"name": "callerConfirmation",
+				"type": "address"
+			}
+		],
+		"name": "renounceRole",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "revokeRole",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_feePercent",
+				"type": "uint256"
+			}
+		],
+		"name": "setFeePercent",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_max",
+				"type": "uint256"
+			}
+		],
+		"name": "setMaxContribution",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_min",
+				"type": "uint256"
+			}
+		],
+		"name": "setMinContribution",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "startRaise",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "superAdmin",
 		"outputs": [
@@ -697,6 +743,19 @@ const contractABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "usdtToken",
+		"outputs": [
+			{
+				"internalType": "contract IERC20",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -716,25 +775,6 @@ const contractABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "WhitelistAmount",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [],
 		"name": "whitelistEnabled",
 		"outputs": [
@@ -746,9 +786,13 @@ const contractABI = [
 		],
 		"stateMutability": "view",
 		"type": "function"
+	},
+	{
+		"stateMutability": "payable",
+		"type": "receive"
 	}
-];
-const contractAddress = '0x85b74f31695cA4E05D7638b51144dAa40629BBF8';
+]
+const contractAddress = '0x74afFC8710BD3Cb177f5c345069b4337f751f01C';
 
 
 
@@ -829,6 +873,7 @@ const Upload = () => {
               placeholder="Enter Address"
               value={whitelistAddress}
               onChange={(e) => handleInputChange(e)}
+			  style={{ width: '300px', height: '90px', padding: '10px', boxSizing: 'border-box' }}
             />
             <input
               type="text"
@@ -836,6 +881,7 @@ const Upload = () => {
               placeholder="Enter Contribution"
               value={contribution}
               onChange={(e) => handleInputChange(e)}
+			  style={{ width: '300px', height: '90px', padding: '10px', boxSizing: 'border-box' }}
             />
           </div>
         
